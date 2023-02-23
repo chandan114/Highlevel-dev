@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { config } from 'app/common/config';
 import { setupFdk } from 'fdk-extension-javascript/express';
 import jioConfig from '../common/jioConfig';
-import extensionHandler from '../common/handlers';
+import extensionHandler from '../common/fdk-handlers';
 import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 import { RedisStorage } from 'fdk-extension-javascript/express/storage';
 

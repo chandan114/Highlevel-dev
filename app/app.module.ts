@@ -1,20 +1,38 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { DynamicModule, Module } from '@nestjs/common';
+import { WinstonModule } from 'nest-winston';
 import { AppService } from './app.service';
-import { config } from './common/config';
-import { mongooseConnectOptions } from './database/mongo.config';
-import { RedisCacheModule } from './redis/redis.module';
+import { DynamicModuleOptionType } from './common/common.types';
+import { winstonOptions } from './common/logger';
+import { CronModule } from './cron/cron.module';
+import { MongoModule } from './database/mongo/mongo.module';
+import { RedisCacheModule } from './database/redis/redis.module';
+import { KafkaModule } from './kafka/kafka.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AppInterceptor } from './app.interceptor';
+import { AppController } from './app.controller';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
     RedisCacheModule,
-    MongooseModule.forRootAsync({
-      useFactory: async () => ({
-        uri: mongooseConnectOptions.uri,
-      }),
-    }),
+    MongoModule,
+    WinstonModule.forRoot(winstonOptions),
+    HealthModule,
   ],
-  controllers: [],
-  providers: [AppService],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AppInterceptor,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  static register(option: DynamicModuleOptionType): DynamicModule {
+    return {
+      module: AppModule,
+      imports: [CronModule.register(option), KafkaModule.register(option)],
+    };
+  }
+}
