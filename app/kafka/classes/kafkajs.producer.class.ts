@@ -1,5 +1,6 @@
+import { Logger } from '@nestjs/common';
 import { sleep } from 'app/common/utils/time.utils';
-import { Kafka, Logger, Producer } from 'kafkajs';
+import { Kafka, Producer } from 'kafkajs';
 import { IProducer } from '../interfaces/kafka-producer.interface';
 import { kafkaOptions } from '../kafka.config';
 
@@ -11,7 +12,19 @@ export class kafkajsProducer implements IProducer {
   constructor(private readonly topic: string) {
     this.kafka = new Kafka(kafkaOptions);
     this.producer = this.kafka.producer();
-    this.logger = this.kafka.logger();
+    this.logger = new Logger(topic);
+
+    this.producer.on(this.producer.events.CONNECT, (e: any) => {
+      Logger.log(`Kafka is connected ${e} with topic ${topic}`);
+    });
+
+    this.producer.on(this.producer.events.DISCONNECT, (e: any) => {
+      Logger.error(e);
+    });
+
+    this.producer.on(this.producer.events.REQUEST_TIMEOUT, (e: any) => {
+      Logger.error(e);
+    });
   }
   async connect() {
     try {

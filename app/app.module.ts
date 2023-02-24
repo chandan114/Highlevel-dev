@@ -11,12 +11,17 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppInterceptor } from './app.interceptor';
 import { AppController } from './app.controller';
 import { HealthModule } from './health/health.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
     RedisCacheModule,
     MongoModule,
     WinstonModule.forRoot(winstonOptions),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, './../', 'dist'),
+    }),
     HealthModule,
   ],
   controllers: [AppController],

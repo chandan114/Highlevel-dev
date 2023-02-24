@@ -1,0 +1,52 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "CartOrderProxy",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/index.js",
+            "env": {
+                "ENV": "jiox0",
+                "NODE_ENV": "development",
+                "CARTORDERPROXY_MAIN_DOMAIN": "https://77aec80c62d8.ngrok.io",
+                "SENTRY_DSN": "",
+                "SENTRY_ENVIRONMENT": "development",
+                "MODE": "cron",
+                "PARTNERS_API_KEY": "6176b6c642ae4818bd2e8f41",
+                "PARTNERS_API_SECRET": "d4FcFIFDORcw4VP",
+                "CRON_JOB":"CacheEmi",
+                "PORT": "5071"
+              },
+              "outputCapture": "std"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Asp-backend Server",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/app/main.ts",
+            "env": {
+                "ENV": "jiox0",
+                "NODE_ENV": "development",
+                "CARTORDERPROXY_MAIN_DOMAIN": "https://jiocatalog-001.loca.lt",
+                "SENTRY_DSN": "",
+                "SENTRY_ENVIRONMENT": "development",
+                "MODE": "server",
+                "PARTNERS_API_KEY": "6176b6c642ae4818bd2e8f41",
+                "PARTNERS_API_SECRET": "d4FcFIFDORcw4VP",
+                "PORT": "5072"
+              },
+              "autoAttachChildProcesses": true,
+              "outputCapture": "std"
+        }
+    ]
+}

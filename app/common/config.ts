@@ -91,7 +91,7 @@ const conf = convict({
     brokers: {
       doc: 'Kafka Brokers List',
       format: String,
-      default: 'localhost:9092',
+      default: '127.0.0.1:9092',
       env: 'KAFKA_BROKER_LIST',
       arg: 'kafka_broker_list',
     },

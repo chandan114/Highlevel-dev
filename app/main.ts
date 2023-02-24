@@ -69,7 +69,7 @@ async function bootstrap() {
         try {
           const healthService = app.get(HealthService);
           await healthService.startHealthCheckDaemon();
-          await cronService.run();
+          // await cronService.run();
           // Example Run or Something Else We Should Add
           // Need to create a Comman Function Name that we want the CronService to Run
         } catch (err) {
@@ -93,7 +93,7 @@ async function bootstrap() {
         const kafkaWorkerService = app.get(
           KafkaWorkerEnumServiceMapping[worker_type],
         );
-        await kafkaWorkerService.onModuleInit();
+        // await kafkaWorkerService.onModuleInit();
         break;
       default:
         process.exit(1);
