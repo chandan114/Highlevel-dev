@@ -728,65 +728,6 @@ const jioConfig = {
       CACHE_DOMAIN: 'jmd-b2b.jiohostx5.de',
     },
   },
-  jiodev: {
-    // jio dev env
-    EMI_URL: 'https://rtss-sit.jioconnect.com/MappServer5/pinelab/offers',
-    GST_CONFIG: {
-      TOKEN_URL: 'https://jiogst-sit.gw.jio.com/token',
-      GST_VALIDATE_URL: 'https://jiogst-sit.gw.jio.com/PublicSearch/1.0',
-      MUTUAL_SSL_KEY: 'd2c138f3-3f74-44f4-893e-f9f27b147d1d',
-      SIGNATURE:
-        'eVz+l/PXgAhrYm2rFMH9hBiZfCcpRSnBsKi29g6XiOzrma68DGQi4fVyRa63majNk7PHqENdyPLgl44aPbSE7zN75Hgi8+2Th1ujZRKkfiAPgIHvbi2D1c2I9rK1nyGd80s+X+doBeEz76o4Z5MXjeyUpaUts2CYW4fcgDud30K37zTWLTgqFY4VDHy725DmJacPUlA78x3uLoUVGnt1abP8Dlh3PM7hL6zqj4iVLkpy/cQ8SzjyCuEXauyQPO+nN6zs/frtIF++aquANiMn5XUySuvL0sx1S76hwH/WpIC0IsqTktprsZDSUNuhaL1sA6+omr0kT955e16l11IQnw==',
-      AUTH: 'Basic NTlmTEJBbmY4WkR1djhidFRUQUZSZGpxdkNzYTpVVjdPN004RVFhNkIzdmowUzh4TEdPd09qYlFh',
-      ASP_CLIENT_ID: 'ASP9X1W9UCPOOQGDKZS',
-      ASP_CLIENT_SECRET: '3556d020-7230-45f8-8da9-d407360ef970',
-    },
-    PROMOTION_URL:
-      'https://devfin.ril.com/MASP_Services/API/V1.0/ProductDetail',
-    COMPUTRON: {
-      CLIENT_ID: '609115887ded7831b69763a2',
-      CLIENT_SECRET: 'rwvMUMQ8I',
-      CLIENT_SALT:
-        'c3c5718ef7907012a6712c5cd0871502610d02564d3b9b734005ea4909b7d2ed',
-      MAIN_URL: 'https://api.jiox2.de/__jiomart/oms',
-    },
-    STORMBREAKER: {
-      MAIN_URL: 'https://api.jiox2.de/__jiomart/logistics',
-      INTERNAL_URL: 'https://api.jiox2.de/__jiomart/logistics-internal',
-      X_OMS_APPLICATION_ID: 'morningstar',
-      X_OMS_APPLICATION_TOKEN: '311E6D8D5C295512CE4BC6BBD413F',
-    },
-    MEGATRON: {
-      MAIN_URL: 'https://api.jiox0.de/platform/cart/',
-    },
-    RPOS: {
-      MAIN_URL:
-        'https://rpospreprod.ril.com/OnlineOrderingAPI_Fynd/Api/v1.0/Checkout',
-      GT_MAIN_URL: '',
-      CREDENTIAL: {
-        USERNAME: 'O!mU$er',
-        PASSWORD: 'P@ssw0rd',
-      },
-    },
-    CLIENT_CERIFICATES: {
-      GT_CERT: 'masp_pem_jiox5.pem',
-      GT_KEY: 'masp_pem_jiox5.pem',
-    },
-    PRISM: {
-      MAIN_URL: 'https://api.jiox0.de/prism',
-    },
-    JUSPAY_EMI_BASIC_AUTH: 'MTc0RTUxMkQ4OUU0MjY0QjRGNUEwN0Y4RjM5QTIwOg==',
-    TENANT_IDS: ['1005'],
-    EMI_CHECKSUM_KEY:
-      'RDSDSDSJDKSMDWOIWPIOEWDKLSDSLJDKLSZQAAKDJSLKDJSLXEWIYOIWEASIURSKALWALSALSDSJDKLSDSOJDKLSDJSLKDPPLKDJSLDEDBBDSDSDDSDSDSDSDSDSDSD',
-    FDK: {
-      CLIENT_ID: config.PARTNERS_API_KEY,
-      CLIENT_SECRET: config.PARTNERS_API_SECRET,
-      CLUSTER_URL: 'https://api.jiox0.de',
-    },
-    OTP_LOGIN_URL:
-      'https://jio-clickstream-product-suggestion.extensions.jiox0.de',
-  },
   jioretailer: {
     ASP_APP_ID: '6316fc9b3fafc461e8639aaf',
     TEST_CONFIG: 'JIOretailer flat',

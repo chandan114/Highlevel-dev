@@ -51,7 +51,14 @@ async function bootstrap() {
     let app;
     switch (mode) {
       case 'server':
-        app = await registerAppServer(nestAppOptions, logger);
+        app = await NestFactory.create(
+          AppModule.register({
+            env,
+            type: 'server',
+          }),
+          nestAppOptions,
+        );
+        await app.listen(config.port || 80);
         const healthService = app.get(HealthService);
         await healthService.startHealthCheckDaemon();
         break;

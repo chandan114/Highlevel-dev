@@ -15,4 +15,9 @@ export class AppController {
     console.log(join(__dirname, './../', 'dist'));
     return response.sendFile(path.join(__dirname, './../', 'dist/index.html'));
   }
+
+  @Get('test')
+  test(@Res() response): any {
+    response.send.JSON({ success: true });
+  }
 }

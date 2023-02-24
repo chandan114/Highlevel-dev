@@ -7,28 +7,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "CartOrderProxy",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/index.js",
-            "env": {
-                "ENV": "jiox0",
-                "NODE_ENV": "development",
-                "CARTORDERPROXY_MAIN_DOMAIN": "https://77aec80c62d8.ngrok.io",
-                "SENTRY_DSN": "",
-                "SENTRY_ENVIRONMENT": "development",
-                "MODE": "cron",
-                "PARTNERS_API_KEY": "6176b6c642ae4818bd2e8f41",
-                "PARTNERS_API_SECRET": "d4FcFIFDORcw4VP",
-                "CRON_JOB":"CacheEmi",
-                "PORT": "5071"
-              },
-              "outputCapture": "std"
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "Asp-backend Server",
             "skipFiles": [
                 "<node_internals>/**"
@@ -41,8 +19,8 @@
                 "SENTRY_DSN": "",
                 "SENTRY_ENVIRONMENT": "development",
                 "MODE": "server",
-                "PARTNERS_API_KEY": "6176b6c642ae4818bd2e8f41",
-                "PARTNERS_API_SECRET": "d4FcFIFDORcw4VP",
+                "PARTNERS_API_KEY": "63f89eb028c76b158e1abc9e",
+                "PARTNERS_API_SECRET": ".CiHhY3_m_bNlaD",
                 "PORT": "5072"
               },
               "autoAttachChildProcesses": true,
