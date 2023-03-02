@@ -13,27 +13,32 @@ export class ApplicationController {
   @Post('/register-proxy/:application_id')
   async registerApplication(
     @Param('application_id') application_id: string,
-    @Req() request: applicationRequestInterface
+    @Req() request: applicationRequestInterface,
   ) {
     return this.applicationService.registerProxyApplication(
       request,
-      application_id
+      application_id,
     );
   }
 
   @Delete('/register-proxy/:application_id')
   async deleteApplication(
     @Param('application_id') application_id: string,
-    @Req() request: applicationRequestInterface
+    @Req() request: applicationRequestInterface,
   ) {
     return this.applicationService.deleteProxyApplication(
       request,
-      application_id
+      application_id,
     );
   }
 
   @Get('/applications')
   async applicationList(@Req() request: applicationRequestInterface) {
     return this.applicationService.getProxyApplicationList(request);
+  }
+
+  @Get('/hello')
+  async xyz(@Req() request: applicationRequestInterface) {
+    return 'hello';
   }
 }

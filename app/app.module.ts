@@ -15,12 +15,14 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ApplicationProxyModule } from 'api/application-proxy-fdk/application-proxy.module';
 import { ClientModule } from 'api/client/client.module';
+import { FdkModule } from './fdk/fdk.module';
 
 @Module({
   imports: [
     RedisCacheModule,
     MongoModule,
     WinstonModule.forRoot(winstonOptions),
+    FdkModule,
     ApplicationProxyModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, './../../', 'dist'),

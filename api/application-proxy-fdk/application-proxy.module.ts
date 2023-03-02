@@ -4,7 +4,7 @@ import { ApplicationModule } from './application/application.module';
 
 @Module({
   imports: [ApplicationModule],
-  providers: [FdkService],
+  providers: [],
 })
 export class ApplicationProxyModule {
   constructor(private readonly fdkService: FdkService) {}
