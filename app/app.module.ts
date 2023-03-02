@@ -13,16 +13,20 @@ import { AppController } from './app.controller';
 import { HealthModule } from './health/health.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { ApplicationProxyModule } from 'api/application-proxy-fdk/application-proxy.module';
+import { ClientModule } from 'api/client/client.module';
 
 @Module({
   imports: [
     RedisCacheModule,
     MongoModule,
     WinstonModule.forRoot(winstonOptions),
+    ApplicationProxyModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, './../', 'dist'),
+      rootPath: join(__dirname, './../../', 'dist'),
     }),
     HealthModule,
+    ClientModule,
   ],
   controllers: [AppController],
   providers: [
@@ -37,7 +41,10 @@ export class AppModule {
   static register(option: DynamicModuleOptionType): DynamicModule {
     return {
       module: AppModule,
-      imports: [CronModule.register(option), KafkaModule.register(option)],
+      imports: [
+        CronModule.register(option),
+        // KafkaModule.register(option)
+      ],
     };
   }
 }
