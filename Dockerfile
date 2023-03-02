@@ -6,7 +6,7 @@ RUN ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
 WORKDIR /srv/asp-backend
 COPY ./package.json .
 COPY ./package-lock.json .
-RUN npm install
+RUN npm install -f
 COPY . .
 RUN npm run build
 
