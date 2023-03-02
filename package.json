@@ -6,7 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "vue-cli-service build",
+    "client-build": "vue-cli-service build",
+    "server-build": "nest build",
+    "build": "npm run server-build && npm run client-build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
