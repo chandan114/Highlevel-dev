@@ -21,4 +21,4 @@ RUN npm run build
 FROM node:16.17.1-alpine
 WORKDIR /srv/asp-backend
 COPY --from=builder /srv/asp-backend .
-ENTRYPOINT ["node" ,"build/main.js"]
+ENTRYPOINT ["node" ,"build/app/main.js"]
