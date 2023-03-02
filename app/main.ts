@@ -16,6 +16,7 @@ import { KafkaWorkerEnumServiceMapping } from './kafka/mappings/kafka-consumer-w
 import { HealthService } from './health/services/health.service';
 import * as path from 'path';
 import { FdkService } from './fdk/fdk.service';
+import * as cookieParser from 'cookie-parser';
 
 async function getAppContext(
   option: DynamicModuleOptionType,
@@ -64,6 +65,7 @@ async function bootstrap() {
         const fdkService = app.get(FdkService);
         const fdkExtension = fdkService.fdkExtension;
         app.use(express.static(path.join(__dirname, './../../', 'dist')));
+        app.use(cookieParser('ext.session'));
         app.use('/', fdkExtension.fdkHandler);
         await app.listen(config.port || 80);
         const healthService = app.get(HealthService);

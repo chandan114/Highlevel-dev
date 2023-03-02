@@ -37,6 +37,7 @@
     "class-transformer": "^0.5.1",
     "compression": "^1.7.4",
     "convict": "^6.2.4",
+    "cookie-parser": "^1.4.6",
     "fdk-client-javascript": "git+https://github.com/gofynd/fdk-client-javascript.git#0.1.28",
     "fdk-extension-javascript": "git+https://github.com/gofynd/fdk-extension-javascript.git#v0.5.2",
     "helmet": "^6.0.1",
