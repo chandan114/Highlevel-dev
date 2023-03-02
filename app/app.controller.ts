@@ -12,13 +12,6 @@ export class AppController {
 
   @Get('test')
   test(@Res() response): any {
-    response.send.JSON({ success: true });
-  }
-
-  @Get('*')
-  getHtml(@Res() response): Promise<any> {
-    return response.sendFile(
-      path.join(__dirname, './../../', 'dist/index.html'),
-    );
+    response.send('{ success: true }');
   }
 }

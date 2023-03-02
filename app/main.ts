@@ -10,9 +10,12 @@ import * as Sentry from '@sentry/node';
 import { DynamicModuleOptionType } from './common/common.types';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as express from 'express';
 import { CronEnumServiceMapping } from './cron/mappings/cron-enum-service.mapping';
 import { KafkaWorkerEnumServiceMapping } from './kafka/mappings/kafka-consumer-worker-service.mapping';
 import { HealthService } from './health/services/health.service';
+import * as path from 'path';
+import { FdkService } from './fdk/fdk.service';
 
 async function getAppContext(
   option: DynamicModuleOptionType,
@@ -58,6 +61,10 @@ async function bootstrap() {
           }),
           nestAppOptions,
         );
+        const fdkService = app.get(FdkService);
+        const fdkExtension = fdkService.fdkExtension;
+        app.use(express.static(path.join(__dirname, './../../', 'dist')));
+        app.use('/', fdkExtension.fdkHandler);
         await app.listen(config.port || 80);
         const healthService = app.get(HealthService);
         await healthService.startHealthCheckDaemon();
