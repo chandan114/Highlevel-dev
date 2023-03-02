@@ -10,14 +10,15 @@ export class AppController {
     return response.status(HttpStatus.OK).json({ ok: 'ok' });
   }
 
-  @Get('*')
-  getHtml(@Res() response): Promise<any> {
-    console.log(join(__dirname, './../', 'dist'));
-    return response.sendFile(path.join(__dirname, './../', 'dist/index.html'));
-  }
-
   @Get('test')
   test(@Res() response): any {
     response.send.JSON({ success: true });
+  }
+
+  @Get('*')
+  getHtml(@Res() response): Promise<any> {
+    return response.sendFile(
+      path.join(__dirname, './../../', 'dist/index.html'),
+    );
   }
 }
