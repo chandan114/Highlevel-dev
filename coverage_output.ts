@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 
-let rootPath = 'coverage/';
+const rootPath = 'coverage/';
 
 // let data = fs.readFileSync(path.resolve('./coverage/coverage-summary.json'), 'utf8');
 // data = JSON.parse(data).total;
@@ -16,7 +16,7 @@ const data = {
   branches_covered: 1655,
   branches_total: 5166,
 };
-let output = data;
+const output = JSON.stringify(data, null, 2);
 // let output = {
 //     "coverage_pct": data.lines.pct,
 //     "lines_total": data.lines.total,
@@ -26,7 +26,6 @@ let output = data;
 //     "branches_total": data.branches.total,
 // };
 
-output = JSON.stringify(output, null, 2);
 fs.writeFileSync(path.join(rootPath, 'coverage_output.json'), output, 'utf8');
 //console.log("dumped coverage_output.json");
 console.log('dumped coverage_output.json');
