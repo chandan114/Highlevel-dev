@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
+import { FdkService } from './fdk.service';
 
-@Module({})
+@Global()
+@Module({
+  providers: [FdkService],
+  exports: [FdkService],
+})
 export class FdkModule {}
