@@ -13,9 +13,9 @@ import { AppController } from './app.controller';
 import { HealthModule } from './health/health.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { ApplicationProxyModule } from 'api/application-proxy-fdk/application-proxy.module';
 import { ClientModule } from 'api/client/client.module';
 import { FdkModule } from './fdk/fdk.module';
+import { RoutesModule } from 'api/routes.module';
 
 @Module({
   imports: [
@@ -23,11 +23,13 @@ import { FdkModule } from './fdk/fdk.module';
     MongoModule,
     WinstonModule.forRoot(winstonOptions),
     FdkModule,
-    ApplicationProxyModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, './../../', 'dist'),
     }),
     HealthModule,
+    RoutesModule,
+
+    // Keep this module in last as this is used for FrontEnd Route.
     ClientModule,
   ],
   controllers: [AppController],

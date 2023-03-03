@@ -1,7 +1,5 @@
 import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
 import { Response } from 'express';
-import * as path from 'path';
-import { join } from 'path';
 
 @Controller()
 export class AppController {

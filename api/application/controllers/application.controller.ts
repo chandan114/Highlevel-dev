@@ -2,7 +2,7 @@ import { Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
 import { applicationRequestInterface } from '../interfaces/register-proxy-application-request.interface';
 import { ApplicationService } from '../services/application.service';
 
-@Controller('/apiRoutes')
+@Controller('/proxy')
 export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
   @Get('/')
@@ -37,8 +37,8 @@ export class ApplicationController {
     return this.applicationService.getProxyApplicationList(request);
   }
 
-  @Get('/hello')
-  async xyz(@Req() request: applicationRequestInterface) {
+  @Get('/test-api')
+  async xyz() {
     return 'hello';
   }
 }
