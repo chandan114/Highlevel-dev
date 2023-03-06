@@ -8,7 +8,7 @@ export class ClientController {
   async(@Res() res: Response) {
     res.contentType('text/html');
     return res.sendFile(
-      path.join(__dirname, '../../../../', 'dist/index.html'),
+      path.join(__dirname, '../../../../../', 'dist/index.html'),
     );
   }
 }
