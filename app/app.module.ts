@@ -13,9 +13,9 @@ import { AppController } from './app.controller';
 import { HealthModule } from './health/health.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { ClientModule } from 'api/client/client.module';
+import { ClientModule } from 'app/api/client/client.module';
 import { FdkModule } from './fdk/fdk.module';
-import { RoutesModule } from 'api/routes.module';
+import { RoutesModule } from 'app/api/routes.module';
 
 @Module({
   imports: [
