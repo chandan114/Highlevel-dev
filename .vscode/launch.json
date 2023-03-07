@@ -21,6 +21,7 @@
                 "MODE": "server",
                 "PARTNERS_API_KEY": "63f89eb028c76b158e1abc9e",
                 "PARTNERS_API_SECRET": ".CiHhY3_m_bNlaD",
+                "CLUSTER_URL": "https://api.jiox0.de",
                 "PORT": "5072"
               },
               "autoAttachChildProcesses": true,
