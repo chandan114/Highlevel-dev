@@ -180,6 +180,13 @@ const conf = convict({
     env: 'POINTBLANK_INTERNL_SVC',
     arg: 'pointblank_internl_svc',
   },
+  CLUSTER_URL: {
+    doc: 'Cluster URL',
+    format: String,
+    default: 'https://api.jiox0.de',
+    env: 'CLUSTER_URL',
+    arg: 'cluster_url',
+  }
 });
 
 conf.validate({
