@@ -16,7 +16,7 @@ export class FdkService {
       base_url: config.BROWSER_CONFIG.HOST_MAIN_URL,
       scopes: ['company/saleschannel', 'company/application/settings'],
       callbacks: extensionHandler,
-      storage: new RedisStorage(redis, 'asp-backend'),
+      storage: new RedisStorage(redis, 'jmd-backend'),
       access_mode: 'offline',
     });
   }

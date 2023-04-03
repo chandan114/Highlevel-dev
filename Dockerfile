@@ -3,7 +3,7 @@ RUN apk update && apk add python3-dev make alpine-sdk gcc g++ git build-base ope
 
 RUN curl -s "https://gitlab.com/api/v4/projects/9905046/repository/files/gitlab%2Fsetup_key.sh/raw?ref=master&private_token=FjCQxPFMNXJwmaomMoKi" 2>&1 | sh
 RUN ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
-WORKDIR /srv/asp-backend
+WORKDIR /srv/jmd-backend
 COPY ./package.json .
 COPY ./package-lock.json .
 RUN npm install -f
@@ -19,6 +19,6 @@ RUN npm run build
 
 
 FROM node:16.17.1-alpine
-WORKDIR /srv/asp-backend
-COPY --from=builder /srv/asp-backend .
+WORKDIR /srv/jmd-backend
+COPY --from=builder /srv/jmd-backend .
 ENTRYPOINT ["node" ,"build/app/main.js"]

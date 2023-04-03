@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Asp-backend Server",
+            "name": "jmd-backend Server",
             "skipFiles": [
                 "<node_internals>/**"
             ],
