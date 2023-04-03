@@ -153,14 +153,14 @@ const conf = convict({
   PARTNERS_API_KEY: {
     doc: 'Partners API Key',
     format: String,
-    default: '63f89eb028c76b158e1abc9e',
+    default: '642a86249ea058dd46382197',
     env: 'PARTNERS_API_KEY',
     arg: 'partners_api_key',
   },
   PARTNERS_API_SECRET: {
     doc: 'Partners API Secret',
     format: String,
-    default: '.CiHhY3_m_bNlaD',
+    default: '_n81TcnzsoqAgKn',
     env: 'PARTNERS_API_SECRET',
     arg: 'partners_api_secret',
   },
