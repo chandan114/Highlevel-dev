@@ -23,7 +23,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "husky install",
     "lint:eslint": "eslint"
-    
   },
   "dependencies": {
     "@nestjs-modules/ioredis": "^1.0.1 --legacy-peer-deps",
@@ -44,8 +43,10 @@
     "fdk-client-javascript": "git+https://github.com/gofynd/fdk-client-javascript.git#0.1.28",
     "fdk-extension-javascript": "git+https://github.com/gofynd/fdk-extension-javascript.git#v0.5.2",
     "helmet": "^6.0.1",
+    "husky": "^8.0.3",
     "ioredis": "^5.3.1",
     "kafkajs": "^2.2.3",
+    "lint-staged": "^13.2.0",
     "lodash": "^4.17.21",
     "mongodb-uri": "^0.9.7",
     "mongoose": "^6.9.1",
