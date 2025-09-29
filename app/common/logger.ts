@@ -11,7 +11,7 @@ import { config } from './config';
 // const log_path = getPath('/logs');
 
 export const winstonOptions: WinstonModuleOptions = {
-  defaultMeta: { service: 'cart-order-proxy' },
+  defaultMeta: { service: 'wallet-system' },
   transports: [
     //new Sentry(sentryOptions),
     new winston.transports.Console({

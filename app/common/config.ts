@@ -1,21 +1,6 @@
 import * as _ from 'lodash';
 import * as convict from 'convict';
-import * as mongodbUri from 'mongodb-uri';
 
-convict.addFormat({
-  name: 'mongo-uri',
-  validate: function (val) {
-    const parsed = mongodbUri.parse(val);
-    mongodbUri.format(parsed);
-  },
-  coerce: function (url) {
-    if (url) {
-      const parsed = mongodbUri.parse(url);
-      url = mongodbUri.format(parsed);
-    }
-    return url;
-  },
-});
 
 const conf = convict({
   env: {
@@ -60,15 +45,13 @@ const conf = convict({
     env: 'ENV',
     arg: 'env',
   },
-  mongo: {
-    extension: {
-      uri: {
-        doc: 'host mongo',
-        format: 'mongo-uri',
-        default: 'mongodb://localhost:27017/extensions',
-        env: 'MONGO_EXTENSIONS_READ_WRITE',
-        arg: 'mongo_extensions_read_write',
-      },
+  postgres: {
+    url: {
+      doc: 'PostgreSQL connection URL',
+      format: String,
+      default: 'postgresql://admin:newStrongPassword@127.0.0.1:5434/wallet_db',
+      env: 'POSTGRES_URL',
+      arg: 'postgres_url',
     },
   },
   redis: {

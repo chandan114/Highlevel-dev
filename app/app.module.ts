@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { DynamicModuleOptionType } from './common/common.types';
 import { winstonOptions } from './common/logger';
 import { CronModule } from './cron/cron.module';
-import { MongoModule } from './database/mongo/mongo.module';
+import { PostgresModule } from './database/postgres/postgres.module';
 import { RedisCacheModule } from './database/redis/redis.module';
 import { KafkaModule } from './kafka/kafka.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -14,15 +14,13 @@ import { HealthModule } from './health/health.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ClientModule } from 'app/api/client/client.module';
-import { FdkModule } from './fdk/fdk.module';
 import { RoutesModule } from 'app/api/routes.module';
 
 @Module({
   imports: [
     RedisCacheModule,
-    MongoModule,
+    PostgresModule,
     WinstonModule.forRoot(winstonOptions),
-    FdkModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, './../../', 'dist'),
     }),

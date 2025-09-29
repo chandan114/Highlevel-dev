@@ -1,0 +1,46 @@
+# Docker Compose Override for Development
+# This file is automatically loaded by docker-compose for development overrides
+
+version: '3.8'
+
+services:
+  postgres:
+    # Override for development - expose more ports if needed
+    environment:
+      POSTGRES_DB: wallet_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      # Enable logging for development
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+    # Add development-specific volumes
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+      # Uncomment the line below to persist logs
+      # - ./logs/postgres:/var/log/postgresql
+
+  redis:
+    # Development configuration for Redis
+    command: redis-server --appendonly yes --loglevel notice
+    volumes:
+      - redis_data:/data
+      # Uncomment to persist Redis logs
+      # - ./logs/redis:/var/log/redis
+
+  # Optional: Add a database admin tool for development
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   container_name: wallet-pgadmin
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@wallet.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #   ports:
+  #     - "5050:80"
+  #   depends_on:
+  #     - postgres
+  #   volumes:
+  #     - pgadmin_data:/var/lib/pgadmin
+
+# volumes:
+#   pgadmin_data:
+#     driver: local

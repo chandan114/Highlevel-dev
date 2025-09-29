@@ -1,8 +1,8 @@
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/mongoose';
+import { InjectConnection } from '@nestjs/sequelize';
 import * as fs from 'fs';
-import * as mongoose from 'mongoose';
+import { Sequelize } from 'sequelize-typescript';
 import Redis from 'ioredis';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import * as path from 'path';
@@ -14,7 +14,7 @@ export class HealthService {
   private timer;
   constructor(
     @InjectRedis() private readonly redisConnection: Redis,
-    @InjectConnection() private readonly mongoConnection: mongoose.Connection,
+    @InjectConnection() private readonly sequelizeConnection: Sequelize,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {
     this.file_healthz_path = path.resolve('/tmp/_healthz');
@@ -38,8 +38,8 @@ export class HealthService {
 
   async checkHealth() {
     try {
-      if (!this.checkMongoConnection(this.mongoConnection)) {
-        throw new Error(`Mongo is not Connected`);
+      if (!await this.checkPostgresConnection(this.sequelizeConnection)) {
+        throw new Error(`PostgreSQL is not Connected`);
       }
       await this.checkRedisConnection(this.redisConnection).catch(() => {
         throw new Error(`Redis is not Connected`);
@@ -50,15 +50,16 @@ export class HealthService {
     }
   }
 
-  checkMongoConnection(connection: mongoose.Connection) {
-    if (!connection) {
+  async checkPostgresConnection(connection: Sequelize) {
+    try {
+      if (!connection) {
+        return false;
+      }
+      await connection.authenticate();
       return true;
-    }
-    const dbStatus = connection.readyState;
-    if (dbStatus !== mongoose.STATES.connected) {
+    } catch (error) {
       return false;
     }
-    return true;
   }
 
   checkRedisConnection(connection: Redis) {

@@ -2,9 +2,10 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { FdkService } from 'app/fdk/fdk.service';
 import { ApplicationModule } from './application/application.module';
 import { TestRouteModule } from './testRoute/testRoute.module';
+import { WalletModule } from './wallet/wallet.module';
 
 @Module({
-  imports: [ApplicationModule, TestRouteModule],
+  imports: [ApplicationModule, TestRouteModule, WalletModule],
 })
 export class RoutesModule {
   constructor(private readonly fdkService: FdkService) {}
