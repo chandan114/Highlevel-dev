@@ -5,7 +5,6 @@ import helmet from 'helmet';
 import * as compression from 'compression';
 import * as express from 'express';
 import { config } from './config';
-import { FdkService } from 'app/fdk/fdk.service';
 import path from 'path';
 
 export const registerAppServer = async (nestAppOptions, logger) => {
@@ -30,8 +29,6 @@ export const registerAppServer = async (nestAppOptions, logger) => {
 
   app.use(express.static(path.join(__dirname, '../../dist')));
 
-  const fdkService = app.get(FdkService);
-  const fdkExtension = fdkService.fdkExtension;
 
   app.enableVersioning({ type: VersioningType.URI });
 
@@ -44,8 +41,6 @@ export const registerAppServer = async (nestAppOptions, logger) => {
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
   app.enableShutdownHooks();
-
-  app.use('/', fdkExtension.fdkHandler);
 
   await app.listen(port || 80, () => {
     logger.warn(`Server is Listening on Port ${port}`);

@@ -1,5 +1,4 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { FdkService } from 'app/fdk/fdk.service';
 import { ApplicationController } from './controllers/application.controller';
 import { ApplicationService } from './services/application.service';
 
