@@ -112,15 +112,21 @@ const WalletTransactions: React.FC<WalletTransactionsProps> = ({ onNavigateToDas
 
   return (
     <div className="wallet-transactions">
-      <header className="transactions-header">
-        <h1>📊 Wallet Transactions</h1>
-        <button 
-          className="btn btn-secondary"
-          onClick={onNavigateToDashboard}
-        >
-          ← Back to Dashboard
-        </button>
-      </header>
+      <div className="transactions-header">
+        <div className="header-content">
+          <div className="header-info">
+            <h1 className="page-title">Transaction History</h1>
+            <p className="page-subtitle">View and manage all your wallet transactions</p>
+          </div>
+          <button 
+            className="btn btn-secondary back-btn"
+            onClick={onNavigateToDashboard}
+          >
+            <span className="btn-icon">←</span>
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
 
       {error && (
         <div className="error-message">
@@ -131,85 +137,135 @@ const WalletTransactions: React.FC<WalletTransactionsProps> = ({ onNavigateToDas
 
       {transactions.length > 0 && (
         <div className="transactions-controls">
-          <div className="sort-controls">
-            <label>Sort by:</label>
-            <button 
-              className={`sort-btn ${sortBy === 'date' ? 'active' : ''}`}
-              onClick={() => handleSort('date')}
-            >
-              Date {sortBy === 'date' && (sortOrder === 'asc' ? '↑' : '↓')}
-            </button>
-            <button 
-              className={`sort-btn ${sortBy === 'amount' ? 'active' : ''}`}
-              onClick={() => handleSort('amount')}
-            >
-              Amount {sortBy === 'amount' && (sortOrder === 'asc' ? '↑' : '↓')}
-            </button>
+          <div className="controls-left">
+            <div className="sort-controls">
+              <span className="sort-label">Sort by:</span>
+              <div className="sort-buttons">
+                <button 
+                  className={`sort-btn ${sortBy === 'date' ? 'active' : ''}`}
+                  onClick={() => handleSort('date')}
+                >
+                  <span className="sort-icon">📅</span>
+                  Date
+                  {sortBy === 'date' && (
+                    <span className="sort-arrow">
+                      {sortOrder === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
+                </button>
+                <button 
+                  className={`sort-btn ${sortBy === 'amount' ? 'active' : ''}`}
+                  onClick={() => handleSort('amount')}
+                >
+                  <span className="sort-icon">💰</span>
+                  Amount
+                  {sortBy === 'amount' && (
+                    <span className="sort-arrow">
+                      {sortOrder === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
           
-          <button className="btn btn-primary" onClick={exportToCSV}>
-            📥 Export CSV
-          </button>
+          <div className="controls-right">
+            <button className="btn btn-primary export-btn" onClick={exportToCSV}>
+              <span className="btn-icon">📥</span>
+              Export CSV
+            </button>
+          </div>
         </div>
       )}
 
       {transactions.length === 0 ? (
-        <div className="no-transactions">
-          <p>No transactions found. Make your first transaction from the dashboard!</p>
+        <div className="empty-state">
+          <div className="empty-icon">📊</div>
+          <h3>No Transactions Yet</h3>
+          <p>Make your first transaction from the dashboard to see it here!</p>
+          <button 
+            className="btn btn-primary"
+            onClick={onNavigateToDashboard}
+          >
+            Go to Dashboard
+          </button>
         </div>
       ) : (
         <>
           <div className="transactions-table-container">
-            <table className="transactions-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Balance After</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedTransactions.map((transaction) => (
-                  <tr key={transaction.id} className={`transaction-row ${transaction.type.toLowerCase()}`}>
-                    <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
-                    <td>
-                      <span className={`transaction-type ${transaction.type.toLowerCase()}`}>
-                        {transaction.type}
-                      </span>
-                    </td>
-                    <td className={`amount ${transaction.type.toLowerCase()}`}>
-                      {transaction.type === 'CREDIT' ? '+' : '-'}${transaction.amount.toFixed(2)}
-                    </td>
-                    <td>${transaction.balance.toFixed(2)}</td>
-                    <td>{transaction.description}</td>
+            <div className="table-wrapper">
+              <table className="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Balance After</th>
+                    <th>Description</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {paginatedTransactions.map((transaction) => (
+                    <tr key={transaction.id} className={`transaction-row ${transaction.type.toLowerCase()}`}>
+                      <td className="date-cell">
+                        <div className="date-info">
+                          <span className="date">{new Date(transaction.createdAt).toLocaleDateString()}</span>
+                          <span className="time">{new Date(transaction.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                        </div>
+                      </td>
+                      <td className="type-cell">
+                        <span className={`transaction-type ${transaction.type.toLowerCase()}`}>
+                          <span className="type-icon">
+                            {transaction.type === 'CREDIT' ? '➕' : '➖'}
+                          </span>
+                          {transaction.type}
+                        </span>
+                      </td>
+                      <td className={`amount-cell ${transaction.type.toLowerCase()}`}>
+                        <span className="amount-value">
+                          {transaction.type === 'CREDIT' ? '+' : '-'}${transaction.amount.toFixed(2)}
+                        </span>
+                      </td>
+                      <td className="balance-cell">
+                        <span className="balance-value">${transaction.balance.toFixed(2)}</span>
+                      </td>
+                      <td className="description-cell">
+                        <span className="description-text">{transaction.description}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {totalPages > 1 && (
             <div className="pagination">
               <button 
-                className="btn btn-secondary"
+                className="btn btn-secondary pagination-btn"
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
               >
+                <span className="btn-icon">←</span>
                 Previous
               </button>
               
-              <span className="page-info">
-                Page {currentPage} of {totalPages}
-              </span>
+              <div className="pagination-info">
+                <span className="page-info">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <span className="total-info">
+                  {sortedTransactions.length} transactions total
+                </span>
+              </div>
               
               <button 
-                className="btn btn-secondary"
+                className="btn btn-secondary pagination-btn"
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
               >
                 Next
+                <span className="btn-icon">→</span>
               </button>
             </div>
           )}

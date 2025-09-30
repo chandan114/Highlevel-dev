@@ -112,11 +112,6 @@ const WalletDashboard: React.FC<WalletDashboardProps> = ({ onNavigateToTransacti
 
   return (
     <div className="wallet-dashboard">
-      <header className="dashboard-header">
-        <h1>💰 Wallet Dashboard</h1>
-        <p>Manage your wallet and transactions</p>
-      </header>
-
       {error && (
         <div className="error-message">
           <p>❌ {error}</p>
@@ -125,53 +120,104 @@ const WalletDashboard: React.FC<WalletDashboardProps> = ({ onNavigateToTransacti
       )}
 
       {showWalletForm ? (
-        <div className="wallet-setup">
-          <h2>Create Your Wallet</h2>
-          <form onSubmit={handleFormSubmit} className="wallet-form">
-            <div className="form-group">
-              <label htmlFor="name">Username (Wallet Name)</label>
-              <input
-                type="text"
-                id="name"
-                value={walletForm.name}
-                onChange={(e) => setWalletForm({ ...walletForm, name: e.target.value })}
-                placeholder="Enter your username"
-                required
-              />
+        <div className="wallet-setup-container">
+          <div className="card">
+            <div className="card-header">
+              <h1 className="card-title">Create Your Wallet</h1>
+              <p className="card-subtitle">Set up your digital wallet to start managing your finances</p>
             </div>
-            <div className="form-group">
-              <label htmlFor="balance">Initial Balance (Optional)</label>
-              <input
-                type="number"
-                id="balance"
-                value={walletForm.balance}
-                onChange={(e) => setWalletForm({ ...walletForm, balance: parseFloat(e.target.value) || 0 })}
-                min="0"
-                step="0.01"
-                placeholder="0.00"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Creating...' : 'Create Wallet'}
-            </button>
-          </form>
+            
+            <form onSubmit={handleFormSubmit} className="wallet-form">
+              <div className="form-group">
+                <label htmlFor="name">Username (Wallet Name)</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={walletForm.name}
+                  onChange={(e) => setWalletForm({ ...walletForm, name: e.target.value })}
+                  placeholder="Enter your username"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="balance">Initial Balance (Optional)</label>
+                <input
+                  type="number"
+                  id="balance"
+                  value={walletForm.balance}
+                  onChange={(e) => setWalletForm({ ...walletForm, balance: parseFloat(e.target.value) || 0 })}
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                />
+              </div>
+              <button type="submit" className="btn btn-primary" disabled={loading}>
+                {loading ? 'Creating...' : 'Create Wallet'}
+              </button>
+            </form>
+          </div>
         </div>
       ) : wallet ? (
-        <div className="wallet-info">
-          <div className="wallet-card">
-            <h2>Your Wallet</h2>
-            <div className="wallet-details">
-              <div className="wallet-name">
-                <strong>Name:</strong> {wallet.name}
+        <div className="wallet-dashboard-content">
+          {/* Balance Cards Section */}
+          <div className="balance-cards">
+            <div className="balance-card primary">
+              <div className="balance-header">
+                <div className="balance-icon">💰</div>
+                <div className="balance-info">
+                  <h3>Current Balance</h3>
+                  <div className="balance-amount">
+                    <span className="currency">USD</span>
+                    <span className="amount">${wallet.balance.toFixed(2)}</span>
+                  </div>
+                </div>
               </div>
-              <div className="wallet-balance">
-                <strong>Balance:</strong> ${wallet.balance.toFixed(2)}
+            </div>
+            
+            <div className="balance-card secondary">
+              <div className="balance-header">
+                <div className="balance-icon">📊</div>
+                <div className="balance-info">
+                  <h3>Portfolio Value</h3>
+                  <div className="balance-amount">
+                    <span className="currency">USD</span>
+                    <span className="amount">${wallet.balance.toFixed(2)}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="transaction-section">
-            <h3>Make a Transaction</h3>
+          {/* Wallet Info Card */}
+          <div className="card wallet-info-card">
+            <div className="card-header">
+              <h2 className="card-title">Wallet Information</h2>
+              <p className="card-subtitle">Account details and quick actions</p>
+            </div>
+            
+            <div className="wallet-details-grid">
+              <div className="wallet-detail">
+                <span className="detail-label">Wallet Name</span>
+                <span className="detail-value">{wallet.name}</span>
+              </div>
+              <div className="wallet-detail">
+                <span className="detail-label">Wallet ID</span>
+                <span className="detail-value">#{wallet.id}</span>
+              </div>
+              <div className="wallet-detail">
+                <span className="detail-label">Created</span>
+                <span className="detail-value">{new Date(wallet.createdAt).toLocaleDateString()}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Transaction Section */}
+          <div className="card transaction-section">
+            <div className="card-header">
+              <h2 className="card-title">Make a Transaction</h2>
+              <p className="card-subtitle">Add or withdraw funds from your wallet</p>
+            </div>
+            
             <TransactionForm
               walletId={wallet.id}
               onTransactionSuccess={handleTransactionSuccess}
@@ -179,12 +225,14 @@ const WalletDashboard: React.FC<WalletDashboardProps> = ({ onNavigateToTransacti
             />
           </div>
 
-          <div className="navigation-section">
+          {/* Quick Actions */}
+          <div className="quick-actions">
             <button 
-              className="btn btn-secondary"
+              className="btn btn-secondary action-btn"
               onClick={onNavigateToTransactions}
             >
-              View All Transactions →
+              <span className="btn-icon">📊</span>
+              View All Transactions
             </button>
           </div>
         </div>

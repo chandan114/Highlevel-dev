@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Wallet } from '../types';
+import './TransactionForm.css';
 
 interface TransactionFormProps {
   walletId: number;
@@ -22,7 +23,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.amount <= 0 || !formData.description.trim()) {
+    if (formData.amount <= 0) {
       return;
     }
 
@@ -35,7 +36,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         },
         body: JSON.stringify({
           amount: formData.amount,
-          description: formData.description,
+          description: formData.description.trim() || 'Transaction',
           type: formData.type,
         }),
       });
@@ -88,64 +89,109 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
     }));
   };
 
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Only allow numbers and decimal point
+    if (value === '' || /^\d*\.?\d*$/.test(value)) {
+      setFormData(prev => ({
+        ...prev,
+        amount: parseFloat(value) || 0,
+      }));
+    }
+  };
+
   return (
-    <div>
+    <div className="transaction-form-container">
       {successMessage && (
         <div className="success-message">
           <p>✅ {successMessage}</p>
         </div>
       )}
+      
       <form onSubmit={handleSubmit} className="transaction-form">
-      <div className="form-group">
-        <label htmlFor="type">Transaction Type</label>
-        <select
-          id="type"
-          name="type"
-          value={formData.type}
-          onChange={handleChange}
-          required
-        >
-          <option value="CREDIT">Credit (Add Money)</option>
-          <option value="DEBIT">Debit (Spend Money)</option>
-        </select>
-      </div>
-      
-      <div className="form-group">
-        <label htmlFor="amount">Amount</label>
-        <input
-          type="number"
-          id="amount"
-          name="amount"
-          value={formData.amount}
-          onChange={handleChange}
-          min="0.01"
-          step="0.01"
-          placeholder="0.00"
-          required
-        />
-      </div>
-      
-      <div className="form-group">
-        <label htmlFor="description">Description</label>
-        <input
-          type="text"
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          placeholder="Transaction description"
-          required
-        />
-      </div>
-      
-      <button 
-        type="submit" 
-        className="btn btn-primary" 
-        disabled={submitting || loading}
-      >
-        {submitting ? 'Processing...' : 'Submit Transaction'}
-      </button>
-    </form>
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="type">Transaction Type</label>
+            <div className="transaction-type-selector">
+              <button
+                type="button"
+                className={`type-btn ${formData.type === 'CREDIT' ? 'active credit' : ''}`}
+                onClick={() => setFormData({ ...formData, type: 'CREDIT' })}
+              >
+                <span className="type-icon">➕</span>
+                <span className="type-label">Credit</span>
+                <span className="type-desc">Add Money</span>
+              </button>
+              <button
+                type="button"
+                className={`type-btn ${formData.type === 'DEBIT' ? 'active debit' : ''}`}
+                onClick={() => setFormData({ ...formData, type: 'DEBIT' })}
+              >
+                <span className="type-icon">➖</span>
+                <span className="type-label">Debit</span>
+                <span className="type-desc">Spend Money</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="amount">Amount</label>
+            <div className="amount-input-container">
+              <span className="currency-symbol">$</span>
+              <input
+                type="text"
+                id="amount"
+                name="amount"
+                value={formData.amount === 0 ? '' : formData.amount}
+                onChange={handleAmountChange}
+                placeholder="0.00"
+                required
+                className="amount-input"
+                inputMode="decimal"
+                pattern="[0-9]*\.?[0-9]*"
+              />
+            </div>
+          </div>
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="description">Description (Optional)</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Enter transaction description (optional)"
+            />
+          </div>
+        </div>
+        
+        <div className="form-actions">
+          <button 
+            type="submit" 
+            className={`btn btn-primary submit-btn ${formData.type.toLowerCase()}`}
+            disabled={submitting || loading}
+          >
+            {submitting ? (
+              <>
+                <span className="loading-spinner"></span>
+                Processing...
+              </>
+            ) : (
+              <>
+                <span className="btn-icon">
+                  {formData.type === 'CREDIT' ? '💰' : '💸'}
+                </span>
+                {formData.type === 'CREDIT' ? 'Add Money' : 'Spend Money'}
+              </>
+            )}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
