@@ -1,5 +1,5 @@
 import { Inject, Module } from '@nestjs/common';
-import { InjectRedis, RedisModule, Redis } from '@nestjs-modules/ioredis';
+import { InjectRedis, RedisModule } from '@nestjs-modules/ioredis';
 import { redisOptions } from 'app/database/redis/redis.config';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
@@ -11,7 +11,7 @@ import { Logger } from 'winston';
 })
 export class RedisCacheModule {
   constructor(
-    @InjectRedis() private readonly redis: Redis,
+    @InjectRedis() private readonly redis: any,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {
     redis.on('connect', () => {

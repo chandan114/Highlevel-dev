@@ -34,6 +34,14 @@ export const registerAppServer = async (nestAppOptions, logger) => {
 
   app.use(helmet());
 
+  // Enable CORS for React development server
+  app.enableCors({
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true,
+  });
+
   app.use(compression());
 
   app.enableShutdownHooks();

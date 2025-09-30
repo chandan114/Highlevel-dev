@@ -1,5 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString } from '@nestjs/class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsEnum } from '@nestjs/class-validator';
 import { Transform } from 'class-transformer';
+
+export enum TransactionType {
+  CREDIT = 'CREDIT',
+  DEBIT = 'DEBIT',
+}
 
 export class TransactWalletDto {
   @IsNotEmpty()
@@ -10,4 +15,8 @@ export class TransactWalletDto {
   @IsNotEmpty()
   @IsString()
   description: string;
+
+  @IsNotEmpty()
+  @IsEnum(TransactionType)
+  type: TransactionType;
 }

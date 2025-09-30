@@ -4,7 +4,7 @@ import { Sequelize, Transaction as SequelizeTransaction } from 'sequelize';
 import { Wallet } from 'app/database/postgres/models/wallet.model';
 import { Transaction, TransactionType } from 'app/database/postgres/models/transaction.model';
 import { SetupWalletDto } from '../dto/setup-wallet.dto';
-import { TransactWalletDto } from '../dto/transact-wallet.dto';
+import { TransactWalletDto, TransactionType as DtoTransactionType } from '../dto/transact-wallet.dto';
 import { GetTransactionsDto } from '../dto/get-transactions.dto';
 
 @Injectable()
@@ -75,7 +75,11 @@ export class WalletService {
 
       // Ensure amount is properly formatted to 4 decimal places
       const amount = parseFloat(transactWalletDto.amount.toFixed(4));
-      const newBalance = parseFloat((wallet.balance + amount).toFixed(4));
+      
+      // Determine the actual amount based on transaction type
+      // For DEBIT, we subtract the amount; for CREDIT, we add it
+      const transactionAmount = transactWalletDto.type === 'DEBIT' ? -amount : amount;
+      const newBalance = parseFloat((wallet.balance + transactionAmount).toFixed(4));
       
       if (newBalance < 0) {
         await dbTransaction.rollback();
@@ -88,17 +92,32 @@ export class WalletService {
       // Create transaction record within the same transaction
       const transaction = await this.transactionModel.create({
         walletId: wallet.id,
-        amount: amount,
+        amount: amount, // Store the positive amount
         balance: newBalance,
         description: transactWalletDto.description,
-        type: amount >= 0 ? TransactionType.CREDIT : TransactionType.DEBIT,
+        type: transactWalletDto.type as TransactionType, // Use the type from the request
       }, { transaction: dbTransaction });
 
       await dbTransaction.commit();
 
+      // Reload the wallet to get the updated data
+      const updatedWallet = await this.walletModel.findByPk(walletIdNum);
+
       return {
-        balance: newBalance,
-        transactionId: transaction.id.toString(),
+        wallet: {
+          id: updatedWallet.id.toString(),
+          name: updatedWallet.name,
+          balance: updatedWallet.balance,
+          date: updatedWallet.createdAt,
+        },
+        transaction: {
+          id: transaction.id,
+          amount: transaction.amount,
+          balance: transaction.balance,
+          description: transaction.description,
+          type: transaction.type,
+          createdAt: transaction.createdAt,
+        },
       };
     } catch (error) {
       await dbTransaction.rollback();
@@ -152,5 +171,47 @@ export class WalletService {
       name: wallet.name,
       date: wallet.createdAt,
     };
+  }
+
+  async getAllWallets() {
+    const wallets = await this.walletModel.findAll({
+      order: [['createdAt', 'DESC']],
+    });
+
+    return wallets.map(wallet => ({
+      id: wallet.id,
+      name: wallet.name,
+      balance: wallet.balance,
+      createdAt: wallet.createdAt,
+      updatedAt: wallet.updatedAt,
+    }));
+  }
+
+  async getWalletTransactions(walletId: string) {
+    const walletIdNum = parseInt(walletId, 10);
+    if (isNaN(walletIdNum)) {
+      throw new BadRequestException('Invalid wallet ID');
+    }
+
+    const wallet = await this.walletModel.findByPk(walletIdNum);
+    if (!wallet) {
+      throw new NotFoundException('Wallet not found');
+    }
+
+    const transactions = await this.transactionModel.findAll({
+      where: { walletId: walletIdNum },
+      order: [['createdAt', 'DESC']],
+    });
+
+    return transactions.map(transaction => ({
+      id: transaction.id,
+      walletId: transaction.walletId,
+      amount: transaction.amount,
+      balance: transaction.balance,
+      description: transaction.description,
+      type: transaction.type,
+      createdAt: transaction.createdAt,
+      updatedAt: transaction.updatedAt,
+    }));
   }
 }

@@ -61,6 +61,15 @@ async function bootstrap() {
           }),
           nestAppOptions,
         );
+        
+        // Enable CORS for React development server
+        app.enableCors({
+          origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+          methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+          allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+          credentials: true,
+        });
+        
         app.use(express.static(path.join(__dirname, './../../', 'dist')));
         app.use(cookieParser('ext.session'));
         await app.listen(config.port || 80);

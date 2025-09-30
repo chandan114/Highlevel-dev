@@ -8,7 +8,7 @@ import { GetTransactionsDto } from '../dto/get-transactions.dto';
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
-  @Post('setup')
+  @Post('')
   @HttpCode(HttpStatus.OK)
   async setupWallet(@Body() setupWalletDto: SetupWalletDto) {
     return this.walletService.setupWallet(setupWalletDto);
@@ -29,9 +29,30 @@ export class WalletController {
     return this.walletService.getTransactions(getTransactionsDto);
   }
 
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async getAllWallets() {
+    return this.walletService.getAllWallets();
+  }
+
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async getWallet(@Param('id') id: string) {
     return this.walletService.getWallet(id);
+  }
+
+  @Get(':id/transactions')
+  @HttpCode(HttpStatus.OK)
+  async getWalletTransactions(@Param('id') id: string) {
+    return this.walletService.getWalletTransactions(id);
+  }
+
+  @Post(':id/transactions')
+  @HttpCode(HttpStatus.CREATED)
+  async createWalletTransaction(
+    @Param('id') id: string,
+    @Body() transactWalletDto: TransactWalletDto,
+  ) {
+    return this.walletService.transactWallet(id, transactWalletDto);
   }
 }
