@@ -26,65 +26,54 @@ wallet-system/
 │   ├── package-lock.json      # Frontend lock file
 │   ├── tsconfig.json          # Frontend TypeScript config
 │   └── webpack.config.js      # Webpack configuration
-├── docker-compose.yml         # Docker services
-├── package.json               # Root workspace manager
+├── docker-compose.yml         # PostgreSQL Docker service
 └── README.md                  # This file
 ```
 
 ## 🚀 Quick Start
 
-### Option 1: Docker (Recommended)
-
-```bash
-# Start all services
-docker-compose up -d --build
-
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
-```
-
-**Services:**
-- **Backend API**: http://localhost:5070
-- **Frontend**: http://localhost:3000
-- **PostgreSQL**: localhost:5432
-- **Redis**: localhost:6379
-
-### Option 2: Local Development
-
-#### Prerequisites
+### Prerequisites
 - Node.js 18+
-- PostgreSQL 15+
-- Redis 7+
+- PostgreSQL 15+ (or use Docker for PostgreSQL only)
 
-#### Setup
+### Setup
 
-1. **Install all dependencies:**
+1. **Install dependencies:**
 ```bash
-npm run install:all
+# Backend
+cd backend && npm install
+
+# Frontend
+cd frontend && npm install
 ```
 
-2. **Start database services:**
+2. **Start PostgreSQL:**
 ```bash
-# Start PostgreSQL and Redis (using Docker)
-docker-compose up -d postgres redis
+# Option A: Using Docker (Recommended for PostgreSQL only)
+docker-compose up -d postgres
+
+# Option B: Local PostgreSQL installation
+# Make sure PostgreSQL is running on localhost:5432
 ```
 
-3. **Run migrations:**
+3. **Run database migrations:**
 ```bash
-npm run migrate
+cd backend && npm run migrate
 ```
 
 4. **Start applications:**
 ```bash
 # Terminal 1 - Backend
-npm run dev:backend
+cd backend && npm run start:dev
 
 # Terminal 2 - Frontend  
-npm run dev:frontend
+cd frontend && npm run dev
 ```
+
+**Access your application:**
+- **Backend API**: http://localhost:5070
+- **Frontend**: http://localhost:3000
+- **PostgreSQL**: localhost:5432
 
 ## 🛠️ Independent Development
 
@@ -159,25 +148,15 @@ npm run build
 NODE_ENV=development
 PORT=5070
 POSTGRES_URL=postgresql://postgres:password@localhost:5432/wallet_db
-REDIS_URL=redis://localhost:6379
 ```
 
-## 🐳 Docker Services
+## 🐳 Docker Services (PostgreSQL Only)
 
-- **postgres**: PostgreSQL 15 database
-- **redis**: Redis 7 cache
-- **backend**: NestJS API server (port 5070)
-- **frontend**: React development server (port 3000)
+- **postgres**: PostgreSQL 15 database (port 5432)
+
+**Note:** Backend and Frontend run locally, only PostgreSQL uses Docker for convenience.
 
 ## 📝 Available Scripts
-
-### Root Level (Workspace Manager)
-- `npm run install:all` - Install all dependencies
-- `npm run build:all` - Build both applications
-- `npm run docker:up` - Start Docker services
-- `npm run docker:down` - Stop Docker services
-- `npm run migrate` - Run database migrations
-- `npm run clean` - Clean all node_modules and lock files
 
 ### Backend (Independent)
 - `npm run start:dev` - Start in development mode
@@ -207,20 +186,22 @@ Each folder (`backend/` and `frontend/`) is completely independent:
 ### Common Issues
 
 1. **Database Connection Error**
-   - Ensure PostgreSQL is running
+   - Ensure PostgreSQL is running: `docker-compose up -d postgres`
    - Check connection string in environment variables
+   - Verify database exists: `wallet_db`
 
 2. **Port Already in Use**
-   - Backend: Change PORT in environment
-   - Frontend: Webpack dev server will auto-increment
+   - Backend: Change PORT in environment variables
+   - Frontend: Webpack dev server will auto-increment to next available port
 
-3. **Docker Issues**
-   - Run `docker-compose down -v` to clean volumes
-   - Rebuild with `docker-compose up -d --build`
+3. **Dependency Issues**
+   - Clean and reinstall: `rm -rf node_modules package-lock.json && npm install`
+   - Install individually: `cd backend && npm install` or `cd frontend && npm install`
 
-4. **Dependency Issues**
-   - Clean and reinstall: `npm run clean && npm run install:all`
-   - Or install individually: `cd backend && npm install`
+4. **PostgreSQL Issues**
+   - Stop and restart: `docker-compose down && docker-compose up -d postgres`
+   - Check logs: `docker-compose logs postgres`
+   - Reset database: `docker-compose down -v && docker-compose up -d postgres`
 
 ## 🔮 Future Enhancements
 
@@ -233,9 +214,17 @@ Each folder (`backend/` and `frontend/`) is completely independent:
 
 ## 📋 Development Workflow
 
-1. **Backend Changes**: Work in `backend/` folder independently
-2. **Frontend Changes**: Work in `frontend/` folder independently
-3. **Database Changes**: Run migrations from `backend/` folder
-4. **Deployment**: Use Docker for production deployment
+1. **Start PostgreSQL**: `docker-compose up -d postgres`
+2. **Backend Development**: Work in `backend/` folder independently
+3. **Frontend Development**: Work in `frontend/` folder independently
+4. **Database Changes**: Run migrations from `backend/` folder
+5. **Local Testing**: Both applications run locally for development
 
 Each part can be developed, tested, and deployed completely independently! 🎉
+
+## 🎯 Local Development Benefits
+
+- **Fast Development**: No Docker overhead for backend/frontend
+- **Easy Debugging**: Direct access to logs and debugging tools
+- **Hot Reload**: Instant changes in both backend and frontend
+- **Simple Setup**: Just PostgreSQL in Docker, everything else local

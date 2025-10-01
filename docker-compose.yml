@@ -35,62 +35,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Backend API
-  backend:
-    image: node:18-alpine
-    container_name: wallet-backend
-    working_dir: /app
-    volumes:
-      - ./backend:/app
-    command: >
-      sh -c "npm install &&
-             npm run build &&
-             npm run migrate &&
-             npm run start:prod"
-    environment:
-      NODE_ENV: "production"
-      PORT: "5070"
-      POSTGRES_URL: "postgresql://postgres:password@postgres:5432/wallet_db"
-      DATABASE_HOST: "postgres"
-      DATABASE_PORT: "5432"
-      DATABASE_DB: "wallet_db"
-      DATABASE_USER: "postgres"
-      DATABASE_PASS: "password"
-      REDIS_URL: "redis://redis:6379"
-    ports:
-      - "5070:5070"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5070/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
-  # Frontend
-  frontend:
-    image: node:18-alpine
-    container_name: wallet-frontend
-    working_dir: /app
-    volumes:
-      - ./frontend:/app
-    command: >
-      sh -c "npm install &&
-             npm run build &&
-             npm run serve"
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-    restart: unless-stopped
-
 volumes:
   postgres_data:
-    driver: local
-  redis_data:
     driver: local

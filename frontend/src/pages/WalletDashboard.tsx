@@ -174,18 +174,7 @@ const WalletDashboard: React.FC<WalletDashboardProps> = ({ onNavigateToTransacti
               </div>
             </div>
             
-            <div className="balance-card secondary">
-              <div className="balance-header">
-                <div className="balance-icon">📊</div>
-                <div className="balance-info">
-                  <h3>Portfolio Value</h3>
-                  <div className="balance-amount">
-                    <span className="currency">USD</span>
-                    <span className="amount">${wallet.balance.toFixed(2)}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
 
           {/* Wallet Info Card */}
