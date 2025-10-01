@@ -203,14 +203,6 @@ Each folder (`backend/` and `frontend/`) is completely independent:
    - Check logs: `docker-compose logs postgres`
    - Reset database: `docker-compose down -v && docker-compose up -d postgres`
 
-## 🔮 Future Enhancements
-
-- User authentication and authorization
-- Multi-wallet support per user
-- Transaction categories and tags
-- Advanced reporting and analytics
-- Mobile app support
-- Real-time notifications
 
 ## 📋 Development Workflow
 
@@ -221,10 +213,3 @@ Each folder (`backend/` and `frontend/`) is completely independent:
 5. **Local Testing**: Both applications run locally for development
 
 Each part can be developed, tested, and deployed completely independently! 🎉
-
-## 🎯 Local Development Benefits
-
-- **Fast Development**: No Docker overhead for backend/frontend
-- **Easy Debugging**: Direct access to logs and debugging tools
-- **Hot Reload**: Instant changes in both backend and frontend
-- **Simple Setup**: Just PostgreSQL in Docker, everything else local
