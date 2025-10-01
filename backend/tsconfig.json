@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "jsx": "react-jsx",      
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
+    "target": "ES2020",
     "sourceMap": true,
-    "outDir": "./build",
-    "allowJs": true,
+    "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
@@ -20,11 +18,6 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": [
-    "app/**/*.ts",
-    "app/**/*.tsx",
-    "types/**/*.d.ts",
-    "src"
-  ],
-  "exclude": []
+  "include": ["app/**/*", "types/**/*.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }
