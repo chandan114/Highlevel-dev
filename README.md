@@ -222,14 +222,6 @@ Each folder (`backend/` and `frontend/`) is completely independent:
    - Clean and reinstall: `npm run clean && npm run install:all`
    - Or install individually: `cd backend && npm install`
 
-## 🔮 Future Enhancements
-
-- User authentication and authorization
-- Multi-wallet support per user
-- Transaction categories and tags
-- Advanced reporting and analytics
-- Mobile app support
-- Real-time notifications
 
 ## 📋 Development Workflow
 
